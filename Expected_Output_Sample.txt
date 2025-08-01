@@ -1,0 +1,246 @@
+SAMPLE OUTPUT FROM: Test-MissingMandatoryFields.ps1
+=====================================================
+
+AD ACCOUNT VALIDATION - MISSING MANDATORY FIELDS TEST SUITE
+Testing for missing mandatory fields: samaccountname, ad_ou_path
+Expected result for invalid cases: Error 2002
+
+======================================================================
+TEST: Valid AD Account (Control Test)
+======================================================================
+Description: Valid account with all mandatory fields present
+Input Data:
+  samaccountname: testuser
+  ad_ou_path: OU=Users,DC=example,DC=com
+  first_name: Test
+  last_name: User
+  email: testuser@example.com
+
+Result:
+  ✓ SUCCESS - Validation passed as expected
+
+======================================================================
+TEST: Missing samaccountname
+======================================================================
+Description: Test with missing samaccountname field
+Input Data:
+  ad_ou_path: OU=Users,DC=example,DC=com
+  first_name: Jane
+  last_name: Doe
+  email: jane.doe@example.com
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: samaccountname
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST: Missing ad_ou_path
+======================================================================
+Description: Test with missing ad_ou_path field
+Input Data:
+  samaccountname: johndoe
+  first_name: John
+  last_name: Doe
+  email: john.doe@example.com
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: ad_ou_path
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST: Missing both mandatory fields
+======================================================================
+Description: Test with both samaccountname and ad_ou_path missing
+Input Data:
+  first_name: Bob
+  last_name: Smith
+  email: bob.smith@example.com
+  department: IT
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: samaccountname, ad_ou_path
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST: Empty samaccountname
+======================================================================
+Description: Test with empty string samaccountname
+Input Data:
+  samaccountname: [EMPTY STRING]
+  ad_ou_path: OU=Users,DC=example,DC=com
+  first_name: Alice
+  last_name: Johnson
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: samaccountname
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST: Null ad_ou_path
+======================================================================
+Description: Test with null ad_ou_path field
+Input Data:
+  samaccountname: charlie
+  ad_ou_path: [NULL]
+  first_name: Charlie
+  last_name: Brown
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: ad_ou_path
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST: Empty account data
+======================================================================
+Description: Test with completely empty account data
+Input Data:
+  (Empty hashtable)
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: samaccountname, ad_ou_path
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST: Only optional fields
+======================================================================
+Description: Test with only optional fields present
+Input Data:
+  first_name: David
+  last_name: Wilson
+  email: david.wilson@example.com
+  department: Finance
+  manager: manager@example.com
+  phone: 555-1234
+
+Result:
+  ✓ FAILED AS EXPECTED
+  Error Code: 2002
+  Error Message: Missing mandatory fields: samaccountname, ad_ou_path
+  ✓ CORRECT ERROR CODE (2002)
+
+======================================================================
+TEST SUMMARY
+======================================================================
+Tests Passed: 8/8
+✓ ALL TESTS PASSED SUCCESSFULLY
+All missing mandatory field scenarios correctly return error 2002
+
+Expected Behavior:
+- Valid accounts with all mandatory fields should pass validation
+- Accounts missing 'samaccountname' should fail with error 2002
+- Accounts missing 'ad_ou_path' should fail with error 2002
+- Accounts with empty/null mandatory fields should fail with error 2002
+
+=====================================================
+SAMPLE OUTPUT FROM: Invoke-ADAccountValidationTests
+=====================================================
+
+================================================================================
+AD ACCOUNT VALIDATION TEST SUITE
+Testing mandatory fields: samaccountname, ad_ou_path
+Expected error code for missing fields: 2002
+================================================================================
+✓✓✓✓✓✓✓✓
+
+================================================================================
+TEST SUMMARY
+================================================================================
+Passed: 8/8
+✓ ALL TESTS PASSED
+All missing mandatory field scenarios correctly return error 2002
+
+=====================================================
+SAMPLE OUTPUT FROM: Invoke-ADAccountValidationTests -ShowDetails
+=====================================================
+
+================================================================================
+AD ACCOUNT VALIDATION TEST SUITE
+Testing mandatory fields: samaccountname, ad_ou_path
+Expected error code for missing fields: 2002
+================================================================================
+
+TEST: Valid_Account
+Description: Valid AD account with all mandatory fields
+Input Data: {"samaccountname":"jdoe","ad_ou_path":"OU=Users,OU=IT,DC=company,DC=com","first_name":"John","last_name":"Doe","email":"jdoe@company.com"}
+✓ PASSED
+
+TEST: Missing_SamAccountName
+Description: Missing samaccountname field - should return error 2002
+Input Data: {"ad_ou_path":"OU=Users,DC=company,DC=com","first_name":"Jane","last_name":"Smith","email":"jsmith@company.com"}
+✓ PASSED
+
+TEST: Missing_AD_OU_Path
+Description: Missing ad_ou_path field - should return error 2002
+Input Data: {"samaccountname":"bwilson","first_name":"Bob","last_name":"Wilson","email":"bwilson@company.com"}
+✓ PASSED
+
+TEST: Missing_Both_Fields
+Description: Missing both mandatory fields - should return error 2002
+Input Data: {"first_name":"Alice","last_name":"Johnson","email":"ajohnson@company.com","department":"HR"}
+✓ PASSED
+
+TEST: Empty_SamAccountName
+Description: Empty samaccountname - should return error 2002
+Input Data: {"samaccountname":"","ad_ou_path":"OU=Users,DC=company,DC=com","first_name":"Chris","last_name":"Brown"}
+✓ PASSED
+
+TEST: Null_AD_OU_Path
+Description: Null ad_ou_path - should return error 2002
+Input Data: {"samaccountname":"mgreen","ad_ou_path":null,"first_name":"Mary","last_name":"Green"}
+✓ PASSED
+
+TEST: Empty_Account
+Description: Completely empty account - should return error 2002
+Input Data: {}
+✓ PASSED
+
+TEST: Only_Optional_Fields
+Description: Only optional fields present - should return error 2002
+Input Data: {"first_name":"David","last_name":"Lee","email":"dlee@company.com","department":"Finance","manager":"manager@company.com"}
+✓ PASSED
+
+================================================================================
+TEST SUMMARY
+================================================================================
+Passed: 8/8
+✓ ALL TESTS PASSED
+All missing mandatory field scenarios correctly return error 2002
+
+=====================================================
+SAMPLE OUTPUT FROM: Individual Function Testing
+=====================================================
+
+PS C:\> Import-Module .\ADAccountValidation.psm1
+
+PS C:\> $invalidAccount = @{ first_name = "John"; last_name = "Doe" }
+PS C:\> $result = Test-ADAccountMandatoryFields -AccountData $invalidAccount
+PS C:\> $result
+
+IsValid            : False
+ErrorCode          : 2002
+ErrorMessage       : Missing mandatory fields: samaccountname, ad_ou_path
+MissingFields      : {samaccountname, ad_ou_path}
+ValidationDateTime : 12/10/2024 3:45:23 PM
+
+PS C:\> Write-Host "Error Code: $($result.ErrorCode)"
+Error Code: 2002
+
+PS C:\> Write-Host "Missing Fields: $($result.MissingFields -join ', ')"
+Missing Fields: samaccountname, ad_ou_path
+
+PS C:\> $validAccount = @{ samaccountname = "jdoe"; ad_ou_path = "OU=Users,DC=company,DC=com" }
+PS C:\> $result = Test-ADAccountMandatoryFields -AccountData $validAccount
+PS C:\> $result.IsValid
+True
