@@ -1,0 +1,62 @@
+{
+  "item": {
+    "samaccountname": {
+      "value": "jdoe",
+      "type": "string",
+      "mandatory": true
+    },
+    "ad_ou_path": {
+      "value": "OU=Users,OU=IT,DC=company,DC=com",
+      "type": "string", 
+      "mandatory": true
+    },
+    "first_name": {
+      "value": "John",
+      "type": "string",
+      "mandatory": false
+    },
+    "last_name": {
+      "value": "Doe",
+      "type": "string",
+      "mandatory": false
+    },
+    "email": {
+      "value": "john.doe@company.com",
+      "type": "string",
+      "mandatory": false
+    },
+    "department": {
+      "value": "IT",
+      "type": "string",
+      "mandatory": false
+    },
+    "manager": {
+      "value": "manager@company.com",
+      "type": "string",
+      "mandatory": false
+    },
+    "phone": {
+      "value": "555-0123",
+      "type": "string",
+      "mandatory": false
+    },
+    "employee_id": {
+      "value": "EMP001",
+      "type": "string",
+      "mandatory": false
+    },
+    "office_location": {
+      "value": "Building A, Floor 2",
+      "type": "string",
+      "mandatory": false
+    }
+  },
+  "metadata": {
+    "test_case_name": "ValidateADAccount_TestData",
+    "description": "Test data for AD account validation with mandatory fields",
+    "mandatory_fields": ["samaccountname", "ad_ou_path"],
+    "expected_error_code_for_missing_fields": 2002,
+    "created_date": "2024-01-01",
+    "version": "1.0"
+  }
+}
