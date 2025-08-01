@@ -1,0 +1,117 @@
+{
+  "test_suite": "AD Account Validation",
+  "description": "Test cases for validating mandatory fields in AD account data",
+  "mandatory_fields": ["samaccountname", "ad_ou_path"],
+  "expected_error_code": 2002,
+  "test_cases": [
+    {
+      "id": 1,
+      "name": "valid_ad_account",
+      "description": "Valid AD account with all mandatory fields",
+      "input": {
+        "samaccountname": "jdoe",
+        "ad_ou_path": "OU=Users,OU=IT,DC=company,DC=com",
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "jdoe@company.com"
+      },
+      "expected_result": "pass",
+      "expected_error_code": null
+    },
+    {
+      "id": 2,
+      "name": "missing_samaccountname",
+      "description": "Test with missing samaccountname field",
+      "input": {
+        "ad_ou_path": "OU=Users,OU=IT,DC=company,DC=com",
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "email": "jsmith@company.com"
+      },
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["samaccountname"]
+    },
+    {
+      "id": 3,
+      "name": "missing_ad_ou_path",
+      "description": "Test with missing ad_ou_path field",
+      "input": {
+        "samaccountname": "bwilson",
+        "first_name": "Bob",
+        "last_name": "Wilson",
+        "email": "bwilson@company.com"
+      },
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["ad_ou_path"]
+    },
+    {
+      "id": 4,
+      "name": "missing_both_mandatory_fields",
+      "description": "Test with missing both samaccountname and ad_ou_path fields",
+      "input": {
+        "first_name": "Alice",
+        "last_name": "Johnson",
+        "email": "ajohnson@company.com",
+        "department": "HR"
+      },
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["samaccountname", "ad_ou_path"]
+    },
+    {
+      "id": 5,
+      "name": "empty_samaccountname",
+      "description": "Test with empty samaccountname field",
+      "input": {
+        "samaccountname": "",
+        "ad_ou_path": "OU=Users,OU=IT,DC=company,DC=com",
+        "first_name": "Chris",
+        "last_name": "Brown"
+      },
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["samaccountname"]
+    },
+    {
+      "id": 6,
+      "name": "null_ad_ou_path",
+      "description": "Test with null ad_ou_path field",
+      "input": {
+        "samaccountname": "mgreen",
+        "ad_ou_path": null,
+        "first_name": "Mary",
+        "last_name": "Green"
+      },
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["ad_ou_path"]
+    },
+    {
+      "id": 7,
+      "name": "empty_account_data",
+      "description": "Test with completely empty account data",
+      "input": {},
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["samaccountname", "ad_ou_path"]
+    },
+    {
+      "id": 8,
+      "name": "only_optional_fields",
+      "description": "Test with only optional fields present",
+      "input": {
+        "first_name": "David",
+        "last_name": "Lee",
+        "email": "dlee@company.com",
+        "department": "Finance",
+        "manager": "manager@company.com",
+        "phone": "555-0123"
+      },
+      "expected_result": "error",
+      "expected_error_code": 2002,
+      "missing_fields": ["samaccountname", "ad_ou_path"]
+    }
+  ]
+}
